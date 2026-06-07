@@ -1,638 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jame — Let Her Go Records</title>
-<meta name="description" content="Jame — Independent artist & producer. DnB, R&B, Liquid, UK Garage. Let Her Go Records, Milton Keynes.">
-<meta property="og:title" content="Jame — Let Her Go Records">
-<meta property="og:description" content="DnB, R&B, Liquid, UK Garage. Independent. Milton Keynes.">
-<meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-/* ══════════════════════════
-   TOKENS — PURPLE THEME
-══════════════════════════ */
-:root {
-  --bg:        #080608;
-  --surface:   #120e12;
-  --surface2:  #181418;
-  --border:    #241c24;
-  --border2:   #302630;
-  --text:      #f0e8f0;
-  --text-mid:  #947a94;
-  --text-dim:  #503a50;
-  --accent:    #B026FF;
-  --accent2:   #B300FF;
-  --accent-rgb:176,38,255;
-  --fd: 'Syne', sans-serif;
-  --fm: 'DM Mono', monospace;
-  --ease: cubic-bezier(0.4,0,0.2,1);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Love Heal Grow Records</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://unpkg.com/flubber@0.4.2/build/flubber.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --accent: #C8FF00;
+      --accent-dim: rgba(200, 255, 0, 0.18);
+      --bg-primary: #080808;
+      --bg-secondary: #0f0f0f;
+      --text-primary: #f5f5f5;
+      --text-dim: rgba(255, 255, 255, 0.4);
+      --border: rgba(200, 255, 0, 0.15);
+    }
 
-/* ══════════════════════════
-   RESET + BASE
-══════════════════════════ */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:var(--fm);
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-  cursor:none;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ── NOISE ── */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  opacity:0.4;
-}
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
 
-/* ── CUSTOM CURSOR ── */
-#cursor{
-  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--accent);
-  transform:translate(-50%,-50%);
-  transition:width 0.2s var(--ease),height 0.2s var(--ease),opacity 0.2s;
-  mix-blend-mode:difference;
-}
-#cursor-ring{
-  position:fixed;top:0;left:0;z-index:9998;pointer-events:none;
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(var(--accent-rgb),0.4);
-  transform:translate(-50%,-50%);
-  transition:transform 0.12s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease);
-}
-body:has(a:hover) #cursor,
-body:has(button:hover) #cursor { width:20px;height:20px; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(200, 255, 0, 0.02) 0px,
+          transparent 1px,
+          transparent 2px,
+          rgba(200, 255, 0, 0.02) 3px
+        );
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* ══════════════════════════
-   NAV
-══════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  padding:20px 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(8,6,8,0.9),transparent);
-  backdrop-filter:blur(0px);
-  transition:backdrop-filter 0.3s,background 0.3s;
-}
-nav.scrolled{backdrop-filter:blur(20px);background:rgba(8,6,8,0.85);}
-.nav-logo{
-  font-family:var(--fd);font-size:14px;font-weight:800;letter-spacing:-0.5px;
-  color:var(--accent);text-decoration:none;
-}
-.nav-links{display:flex;gap:28px;align-items:center;}
-.nav-links a{
-  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-mid);
-  text-decoration:none;transition:color 0.15s;
-}
-.nav-links a:hover{color:var(--accent);}
-.nav-cta{
-  padding:7px 16px;border-radius:100px;
-  background:rgba(var(--accent-rgb),0.1);border:1px solid rgba(var(--accent-rgb),0.25);
-  color:var(--accent)!important;transition:all 0.15s!important;
-}
-.nav-cta:hover{background:rgba(var(--accent-rgb),0.2)!important;border-color:var(--accent)!important;}
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-/* ══════════════════════════
-   HERO
-══════════════════════════ */
-#hero{
-  position:relative;min-height:100vh;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 40px 80px;overflow:hidden;
-}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.6;}
+    #hero-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-.hero-eyebrow{
-  font-size:9px;letter-spacing:4px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:20px;
-  animation:fadeUp 1s 0.3s var(--ease) both;
-}
-.hero-title{
-  font-family:var(--fd);font-weight:800;
-  font-size:clamp(64px,12vw,140px);
-  letter-spacing:-4px;line-height:0.88;
-  color:var(--text);position:relative;z-index:1;
-  animation:fadeUp 1s 0.5s var(--ease) both;
-}
-.hero-title .accent{color:var(--accent);}
-.hero-sub{
-  font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-mid);
-  margin-top:24px;max-width:400px;line-height:1.8;
-  animation:fadeUp 1s 0.7s var(--ease) both;
-}
-.hero-ctas{
-  display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;
-  animation:fadeUp 1s 0.9s var(--ease) both;
-}
-.btn-solid{
-  padding:13px 28px;border-radius:6px;border:none;cursor:none;
-  background:var(--accent);color:#fff;
-  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
-  transition:all 0.15s var(--ease);
-}
-.btn-solid:hover{opacity:0.88;transform:translateY(-1px);}
-.btn-ghost{
-  padding:13px 28px;border-radius:6px;cursor:none;
-  background:transparent;color:var(--text-mid);
-  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;
-  border:1px solid var(--border2);transition:all 0.15s var(--ease);
-}
-.btn-ghost:hover{border-color:var(--text-mid);color:var(--text);}
+    .app-core {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-.hero-scroll{
-  position:absolute;bottom:36px;right:40px;
-  font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  animation:fadeUp 1s 1.1s var(--ease) both;
-}
-.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s ease-in-out infinite;}
-@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1);}50%{opacity:1;transform:scaleY(0.6);}}
+    .morph-space {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.4 / 1;
+      max-height: 500px;
+      margin-bottom: 40px;
+    }
 
-/* ══════════════════════════
-   SECTION BASE
-══════════════════════════ */
-section{padding:100px 40px;}
-.section-eyebrow{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-.section-title{font-family:var(--fd);font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1px;margin-bottom:40px;}
+    #lhg-player-svg {
+      width: 100%;
+      height: 100%;
+    }
 
-/* ══════════════════════════
-   RELEASES
-══════════════════════════ */
-#releases{border-top:1px solid var(--border);}
-.releases-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
-.releases-count{font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;}
+    .state-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
 
-.release-list{display:flex;flex-direction:column;gap:0;}
-.release-row{
-  display:grid;grid-template-columns:60px 1fr auto;gap:20px;align-items:center;
-  padding:20px 0;border-bottom:1px solid var(--border);
-  cursor:none;transition:all 0.15s var(--ease);
-  position:relative;overflow:hidden;
-}
-.release-row::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
-  background:linear-gradient(to right,rgba(var(--accent-rgb),0.04),transparent);
-  transition:width 0.3s var(--ease);
-}
-.release-row:hover::before{width:100%;}
-.release-row:hover .rel-title{color:var(--accent);}
-.release-row:hover .rel-play-btn{opacity:1;transform:scale(1);}
-.release-row:first-child{border-top:1px solid var(--border);}
+    .state-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
 
-.rel-art{
-  width:60px;height:60px;border-radius:6px;
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:26px;
-  flex-shrink:0;overflow:hidden;position:relative;
-}
-.rel-art img{width:100%;height:100%;object-fit:cover;}
-.rel-body{min-width:0;}
-.rel-type{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
-.rel-title{font-family:var(--fd);font-size:clamp(16px,2.5vw,22px);font-weight:700;letter-spacing:-0.3px;transition:color 0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.rel-meta{font-size:9px;color:var(--text-mid);margin-top:4px;letter-spacing:1px;}
-.rel-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.rel-play-btn{
-  width:44px;height:44px;border-radius:50%;
-  background:var(--accent);color:#fff;border:none;cursor:none;
-  display:flex;align-items:center;justify-content:center;font-size:14px;
-  opacity:0;transform:scale(0.8);transition:all 0.2s var(--ease);
-}
-.rel-play-btn.playing{opacity:1;transform:scale(1);}
-.rel-links{display:flex;gap:6px;}
-.rel-link{
-  font-size:7px;letter-spacing:1px;text-transform:uppercase;
-  padding:4px 10px;border-radius:100px;
-  border:1px solid var(--border2);color:var(--text-mid);
-  text-decoration:none;cursor:none;transition:all 0.15s;
-}
-.rel-link:hover{border-color:var(--accent);color:var(--accent);}
+    .ui-panel {
+      background: rgba(17, 17, 17, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+    }
 
-/* ══════════════════════════
-   PLAYER BAR
-══════════════════════════ */
-#player{
-  position:fixed;bottom:0;left:0;right:0;z-index:700;
-  background:rgba(8,6,8,0.97);backdrop-filter:blur(24px);
-  border-top:1px solid var(--border);
-  padding:14px 40px;
-  display:none;align-items:center;gap:16px;
-  animation:slideUp 0.3s var(--ease);
-}
-#player.show{display:flex;}
-@keyframes slideUp{from{transform:translateY(100%);}to{transform:none;}}
-.p-art{width:44px;height:44px;border-radius:6px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;}
-.p-art img{width:100%;height:100%;object-fit:cover;}
-.p-info{flex:1;min-width:0;}
-.p-title{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:-0.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.p-artist{font-size:8px;letter-spacing:1px;color:var(--text-mid);margin-top:2px;}
-.p-progress{flex:2;display:flex;align-items:center;gap:10px;min-width:0;}
-.prog-track{flex:1;height:2px;background:var(--border2);border-radius:2px;cursor:none;position:relative;}
-.prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width 0.4s linear;pointer-events:none;}
-.p-time{font-size:8px;letter-spacing:1px;color:var(--text-dim);flex-shrink:0;min-width:70px;text-align:right;}
-.p-ctrls{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.p-btn{background:none;border:none;color:var(--text-mid);cursor:none;font-size:16px;padding:4px;transition:color 0.15s;}
-.p-btn:hover{color:var(--text);}
-.p-play{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:none;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.15s;}
-.p-play:hover{opacity:0.85;transform:scale(1.05);}
-.p-close{font-size:14px;color:var(--text-dim);}
-audio{display:none;}
+    .panel-music-l {
+      overflow-y: auto;
+      max-height: 100%;
+    }
 
-/* ══════════════════════════
-   WAVEFORM SVG PLAYER VIZ
-══════════════════════════ */
-.waveform-wrap{
-  height:40px;flex:1;display:flex;align-items:center;
-  overflow:hidden;min-width:0;
-}
-#waveform-svg{width:100%;height:100%;}
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-/* ══════════════════════════
-   ARTISTS
-══════════════════════════ */
-#artists{border-top:1px solid var(--border);background:var(--surface);}
-.artist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px;}
-.artist-card{
-  background:var(--bg);padding:32px 28px;
-  position:relative;overflow:hidden;cursor:none;
-  transition:background 0.2s;
-}
-.artist-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-accent,var(--accent));transform:scaleX(0);transform-origin:left;transition:transform 0.3s var(--ease);}
-.artist-card:hover{background:var(--surface2);}
-.artist-card:hover::before{transform:scaleX(1);}
-.ac-emoji{font-size:32px;margin-bottom:20px;display:block;}
-.ac-name{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px;}
-.ac-role{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-bottom:14px;}
-.ac-bio{font-size:11px;color:var(--text-mid);line-height:1.7;}
-.ac-genres{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px;}
-.ac-genre{font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(var(--accent-rgb),0.08);color:var(--accent);}
+    .track-item {
+      padding: 12px;
+      background: rgba(200, 255, 0, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
 
-/* ══════════════════════════
-   ABOUT / LABEL
-══════════════════════════ */
-#about{border-top:1px solid var(--border);position:relative;overflow:hidden;}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.about-text{font-size:13px;color:var(--text-mid);line-height:1.9;}
-.about-text p+p{margin-top:16px;}
-.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-.about-stat{background:var(--surface);padding:28px 24px;position:relative;overflow:hidden;}
-.about-stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);opacity:0.4;}
-.stat-n{font-family:var(--fd);font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--text);}
-.stat-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;}
+    .track-item:hover {
+      background: rgba(200, 255, 0, 0.1);
+      border-color: var(--accent);
+    }
 
-/* ══════════════════════════
-   CONTACT / EMAIL CAPTURE
-══════════════════════════ */
-#contact{border-top:1px solid var(--border);background:var(--surface);}
-.contact-inner{max-width:600px;}
-.contact-desc{font-size:12px;color:var(--text-mid);line-height:1.8;margin-bottom:36px;}
-.email-form{display:flex;gap:10px;flex-wrap:wrap;}
-.email-input{
-  flex:1;min-width:220px;
-  background:var(--bg);border:1px solid var(--border2);border-radius:6px;
-  padding:13px 18px;color:var(--text);font-family:var(--fm);font-size:12px;
-  outline:none;transition:border-color 0.15s;
-}
-.email-input:focus{border-color:var(--accent);}
-.email-input::placeholder{color:var(--text-dim);}
-.email-submit{
-  padding:13px 24px;border-radius:6px;border:none;cursor:none;
-  background:var(--accent);color:#fff;
-  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
-  transition:all 0.15s var(--ease);white-space:nowrap;
-}
-.email-submit:hover{opacity:0.88;}
-.form-msg{font-size:9px;letter-spacing:1px;color:var(--accent);margin-top:10px;min-height:14px;}
-.contact-socials{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
-.social-link{
-  font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);
-  text-decoration:none;padding:7px 14px;border:1px solid var(--border2);border-radius:100px;
-  transition:all 0.15s;cursor:none;
-}
-.social-link:hover{border-color:var(--accent);color:var(--accent);}
+    .track-item.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
 
-/* ══════════════════════════
-   FOOTER
-══════════════════════════ */
-footer{
-  border-top:1px solid var(--border);
-  padding:32px 40px;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
-}
-.footer-brand{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--accent);}
-.footer-copy{font-size:8px;letter-spacing:1px;color:var(--text-dim);}
+    .track-title {
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
 
-/* ══════════════════════════
-   SCROLL REVEAL
-══════════════════════════ */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s var(--ease),transform 0.7s var(--ease);}
-.reveal.in{opacity:1;transform:none;}
-.reveal-d1{transition-delay:0.1s;}
-.reveal-d2{transition-delay:0.2s;}
-.reveal-d3{transition-delay:0.3s;}
-.reveal-d4{transition-delay:0.4s;}
+    .track-artist {
+      font-size: 9px;
+      color: var(--text-dim);
+    }
 
-/* ══════════════════════════
-   ANIMATIONS
-══════════════════════════ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .panel-music-h {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
 
-/* ══════════════════════════
-   RESPONSIVE
-══════════════════════════ */
-@media(max-width:768px){
-  nav{padding:16px 20px;}
-  .nav-links a:not(.nav-cta){display:none;}
-  section{padding:72px 20px;}
-  #hero{padding:0 20px 72px;}
-  .about-grid{grid-template-columns:1fr;gap:40px;}
-  .releases-header{flex-direction:column;align-items:flex-start;gap:8px;}
-  .release-row{grid-template-columns:48px 1fr auto;}
-  .rel-links{display:none;}
-  #player{padding:12px 16px;}
-  .p-progress{display:none;}
-  footer{padding:24px 20px;}
-}
-</style>
+    .txt-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .txt-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .timer-disp {
+      font-size: 32px;
+      font-weight: 300;
+      font-family: 'DM Mono', monospace;
+      color: var(--accent);
+      margin: 8px 0;
+    }
+
+    .flex-center-gap {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .btn-solid, .btn-ghost {
+      padding: 12px 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+
+    .btn-solid {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .btn-solid:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-primary);
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .panel-music-g {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    #progress-container {
+      margin-top: auto;
+      position: relative;
+      width: 100%;
+      height: 4px;
+      background: rgba(200, 255, 0, 0.1);
+      cursor: pointer;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.1s linear;
+    }
+
+    .panel-blog-l h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .panel-blog-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .blog-post {
+      padding: 16px;
+      background: rgba(200, 255, 0, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .blog-post:hover {
+      background: rgba(200, 255, 0, 0.1);
+      border-color: var(--accent);
+    }
+
+    .blog-post h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .blog-post p {
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    .blog-post-date {
+      font-size: 9px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    .footer-link {
+      display: inline-block;
+      margin-top: auto;
+      padding: 12px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .footer-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-align: center;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .logo-subtitle {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      text-align: center;
+      color: var(--accent);
+      margin-top: 20px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(200, 255, 0, 0.5);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 12px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .state-overlay {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+
+      .morph-space {
+        aspect-ratio: 1 / 1;
+      }
+
+      .logo-subtitle {
+        font-size: 20px;
+        letter-spacing: 4px;
+      }
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(200, 255, 0, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-dim);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="app-core">
+      <div class="morph-space is-home">
+        <svg id="lhg-player-svg" viewBox="0 0 1200 500" preserveAspectRatio="none">
+          <defs>
+            <filter id="neon-glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
 
-<!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="#hero">LET HER GO</a>
-  <div class="nav-links">
-    <a href="#releases">Music</a>
-    <a href="#artists">Artists</a>
-    <a href="#about">Label</a>
-    <a href="#contact" class="nav-cta">Get In Touch</a>
-  </div>
-</nav>
+          <!-- L Character -->
+          <g transform="translate(180, 300)" id="grp-l-wrap">
+            <g id="grp-l">
+              <g transform="scale(0.2, -0.2) translate(-190, -314)">
+                <path id="char-l" fill="var(--accent)" filter="url(#neon-glow)"
+                  d="M190 669 l0 -355 84 -82 84 -82 281 0 281 0 0 105 0 105 -260 0 -260 0 0 233 0 232 -77 76 c-43 41 -90 85 -105 99 l-28 23 0 -354z" />
+              </g>
+            </g>
+          </g>
 
-<!-- HERO -->
-<section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-eyebrow">Let Her Go Records · Milton Keynes · Est. 2024</div>
-  <h1 class="hero-title">LET<br><span class="accent">HER</span><br>GO</h1>
-  <p class="hero-sub">DnB · R&B · Liquid · UK Garage<br>Independent. Uncompromising. Alive.</p>
-  <div class="hero-ctas">
-    <button class="btn-solid" onclick="document.getElementById('releases').scrollIntoView({behavior:'smooth'})">Listen Now</button>
-    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Stay Connected</button>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
+          <!-- H Character -->
+          <g transform="translate(520, 300)">
+            <g id="grp-h">
+              <g id="grp-h-scale">
+                <g transform="scale(0.2, -0.2) translate(-1010, -314)">
+                  <path id="char-h" fill="var(--accent)" filter="url(#neon-glow)"
+                    d="M1010 585 l0 -436 133 3 132 3 3 103 3 102 -91 0 -90 0 0 225 0 225 90 0 90 0 0 -220 0 -220 190 0 190 0 0 220 0 220 90 0 90 0 0 -225 0 -225 -90 0 -90 0 0 -105 0 -106 130 3 131 3 0 430 -1 430 -130 3 -130 3 0 -106 0 -105 -192 2 -193 3 -3 103 -3 102 -129 0 -130 0 0 -435z" />
+                </g>
+              </g>
+            </g>
+          </g>
 
-<!-- RELEASES -->
-<section id="releases">
-  <div class="releases-header reveal">
-    <div>
-      <div class="section-eyebrow">Catalogue</div>
-      <h2 class="section-title" style="margin-bottom:0">Music</h2>
-    </div>
-    <div class="releases-count" id="rel-count">5 releases</div>
-  </div>
-  <div class="release-list reveal reveal-d1" id="release-list"></div>
-</section>
+          <!-- G Character -->
+          <g transform="translate(880, 300)" id="grp-g-wrap">
+            <g id="grp-g">
+              <g transform="scale(0.2, -0.2) translate(-2081, -314)">
+                <path id="char-g" fill="var(--accent)" filter="url(#neon-glow)"
+                  d="M2081 952 l-72 -68 3 -305 3 -306 27 -40 c16 -25 43 -48 72 -61 43 -21 61 -22 305 -22 l259 0 76 82 76 82 -2 170 -3 171 -207 3 -208 2 0 -80 0 -80 105 0 105 0 0 -70 0 -70 -200 0 -200 0 0 225 0 225 300 0 300 0 0 105 0 105 -334 0 -334 0 -71 -68z" />
+              </g>
+            </g>
+          </g>
+        </svg>
 
-<!-- ARTISTS -->
-<section id="artists">
-  <div class="reveal">
-    <div class="section-eyebrow">Roster</div>
-    <h2 class="section-title">The Artists</h2>
-  </div>
-  <div class="artist-grid" id="artist-grid"></div>
-</section>
+        <!-- HTML VIEWS -->
+        <div id="state-home" class="state-overlay active"></div>
 
-<!-- ABOUT -->
-<section id="about">
-  <!-- Animated SVG background -->
-  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.04;pointer-events:none;" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
-    <defs>
-      <radialGradient id="rg1" cx="30%" cy="50%">
-        <stop offset="0%" stop-color="#B026FF"/>
-        <stop offset="100%" stop-color="transparent"/>
-      </radialGradient>
-    </defs>
-    <circle cx="200" cy="200" r="300" fill="url(#rg1)" opacity="0.5">
-      <animateTransform attributeName="transform" type="translate" values="0,0;40,20;0,0" dur="8s" repeatCount="indefinite"/>
-    </circle>
-  </svg>
+        <!-- MUSIC STATE -->
+        <div id="state-music" class="state-overlay">
+          <div class="ui-panel panel-music-l">
+            <div id="track-list" class="track-list">
+              <!-- Tracks will be injected here -->
+            </div>
+          </div>
+          <div class="ui-panel panel-music-h">
+            <div class="txt-title" id="audio-title">LIQUID FREQUENCIES</div>
+            <div class="txt-sub" id="audio-artist">SELECT A TRACK</div>
+            <div class="timer-disp" id="audio-time">00:00</div>
 
-  <div class="about-grid">
-    <div class="reveal">
-      <div class="section-eyebrow">The Label</div>
-      <h2 class="section-title">Built on<br>Frequency</h2>
-      <div class="about-text">
-        <p>Let Her Go Records is an independent label built on a single principle: music should earn its frequency. Every release exists because it had to — not because it was easy or safe.</p>
-        <p>Based in Milton Keynes, operating across DnB, R&B, Liquid and UK Garage. Home to Jame, Echo Ray, Zephyr Noir, and Sage Velvet.</p>
-        <p>Local-first. Artist-first. Always independent.</p>
+            <div class="flex-center-gap">
+              <button class="btn-ghost" onclick="prevTrack()" aria-label="Previous Track">Prev</button>
+              <button class="btn-solid" onclick="togglePlay()" id="play-btn" aria-label="Toggle Playback">Play</button>
+              <button class="btn-ghost" onclick="nextTrack()" aria-label="Next Track">Next</button>
+            </div>
+          </div>
+          <div class="ui-panel panel-music-g">
+            <div id="progress-container" onclick="seekAudio(event)">
+              <div id="progress-bar"></div>
+            </div>
+            <div style="margin-top:12px; font-size:7px; letter-spacing:2px; color:var(--text-dim); text-align:center;">
+              // AUDIO_DATA_STREAM // 174_BPM</div>
+          </div>
+        </div>
+
+        <!-- BLOG STATE -->
+        <div id="state-blog" class="state-overlay">
+          <div class="ui-panel panel-blog-l">
+            <h2>Process<br>& Signal</h2>
+            <p style="font-size:11px; margin-top:12px;">Production, perspective, and the science of sound.</p>
+          </div>
+          <div class="ui-panel panel-blog-list" id="blog-list">
+            <!-- Blog posts will be injected here -->
+          </div>
+          <div class="ui-panel panel-blog-g">
+            <a href="https://lhg-records.pages.dev" class="footer-link">MORE POSTS →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MAIN APP NAVIGATION -->
+      <div class="hero-eyebrow">DnB · Liquid · Neurofunk · UK Garage</div>
+      <div class="logo-subtitle">LOVE HEAL GROW</div>
+      <div class="hero-ctas" style="margin-top: 30px;">
+        <button class="nav-btn active" data-state="home" aria-label="Navigate to Home"
+          onclick="navigateTo('home')">Home</button>
+        <button class="nav-btn" data-state="music" aria-label="Navigate to Music"
+          onclick="navigateTo('music')">Music</button>
+        <button class="nav-btn" data-state="blog" aria-label="Navigate to Blog"
+          onclick="navigateTo('blog')">Blog</button>
       </div>
     </div>
-    <div class="about-stat-grid reveal reveal-d2">
-      <div class="about-stat">
-        <div class="stat-n">9K</div>
-        <div class="stat-l">SoundCloud Followers</div>
-      </div>
-      <div class="about-stat">
-        <div class="stat-n">4</div>
-        <div class="stat-l">Active Artists</div>
-      </div>
-      <div class="about-stat">
-        <div class="stat-n">174</div>
-        <div class="stat-l">BPM at the core</div>
-      </div>
-      <div class="about-stat">
-        <div class="stat-n">∞</div>
-        <div class="stat-l">Independent forever</div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-inner">
-    <div class="section-eyebrow reveal">Get In Touch</div>
-    <h2 class="section-title reveal reveal-d1">Stay<br>Connected</h2>
-    <p class="contact-desc reveal reveal-d2">
-      Demo submissions, booking enquiries, press, sync, or just want to say something real — drop your email and we'll be in touch. No newsletters. No noise. Just music.
-    </p>
-    <form class="email-form reveal reveal-d3" onsubmit="submitEmail(event)">
-      <input class="email-input" type="email" id="email-in" placeholder="your@email.com" required>
-      <input class="email-input" type="text" id="name-in" placeholder="Name (optional)" style="max-width:200px;">
-      <button class="email-submit" type="submit">Send It</button>
-    </form>
-    <div class="form-msg" id="form-msg"></div>
-    <div class="contact-socials reveal reveal-d4">
-      <a class="social-link" href="https://soundcloud.com" target="_blank">SoundCloud ↗</a>
-      <a class="social-link" href="https://instagram.com" target="_blank">Instagram ↗</a>
-      <a class="social-link" href="https://open.spotify.com" target="_blank">Spotify ↗</a>
-      <a class="social-link" href="mailto:hello@lethergo.com">Email ↗</a>
-    </div>
-  </div>
-</section>
+  <script type="module">
+    // Global audio element
+    let audio = new Audio();
+    let currentTrackIndex = 0;
+    let isPlaying = false;
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-brand">Let Her Go Records</div>
-  <div class="footer-copy">© 2025 Let Her Go Records · Milton Keynes · Independent</div>
-</footer>
+    // Sample tracks - Replace with your actual tracks
+    const tracks = [
+      {
+        title: "Baptize 3",
+        artist: "N-Dread",
+        url: "https://pub-xxxx.r2.dev/baptize.mp3" // Placeholder for R2 URL
+      },
+      {
+        title: "Euphoria in Shadows",
+        artist: "Echo Ray",
+        url: "https://pub-xxxx.r2.dev/euphoria.mp3" // Placeholder for R2 URL
+      },
+      {
+        title: "Secret Rendezvous",
+        artist: "Zephyr Noir",
+        url: "https://pub-xxxx.r2.dev/rendezvous.mp3" // Placeholder for R2 URL
+      }
+    ];
 
-<!-- PLAYER BAR -->
-<div id="player">
-  <div class="p-art" id="p-art">🎵</div>
-  <div class="p-info">
-    <div class="p-title" id="p-title">—</div>
-    <div class="p-artist" id="p-artist">—</div>
-  </div>
-  <!-- Animated waveform -->
-  <div class="waveform-wrap">
-    <svg id="waveform-svg" viewBox="0 0 300 40" preserveAspectRatio="none"></svg>
-  </div>
-  <div class="p-progress">
-    <div class="prog-track" id="prog-track" onclick="seekTo(event)">
-      <div class="prog-fill" id="prog-fill"></div>
-    </div>
-    <div class="p-time" id="p-time">0:00 / 0:00</div>
-  </div>
-  <div class="p-ctrls">
-    <button class="p-btn" onclick="prevTrack()">⏮</button>
-    <button class="p-play" id="p-play-btn" onclick="togglePlay()">▶</button>
-    <button class="p-btn" onclick="nextTrack()">⏭</button>
-    <button class="p-btn p-close" onclick="closePlayer()">✕</button>
-  </div>
-  <audio id="audio"></audio>
-</div>
+    // Sample blog posts
+    const blogPosts = [
+      {
+        title: "Liquid DnB: Sound Design From Scratch",
+        excerpt: "Breaking down the reese bass construction that defines the Echo Ray sound...",
+        date: "Jun 2026",
+        url: "https://lhg-records.pages.dev"
+      },
+      {
+        title: "The Neurofunk Mindset",
+        excerpt: "How systems thinking shapes every arrangement decision in the studio...",
+        date: "May 2026",
+        url: "https://lhg-records.pages.dev"
+      },
+      {
+        title: "Building LHG Records From Zero",
+        excerpt: "The independent label blueprint — distribution, identity, and community...",
+        date: "Apr 2026",
+        url: "https://lhg-records.pages.dev"
+      }
+    ];
 
-<script>
-'use strict';
-const RELEASES = [
-  {
-    id:1, title:'MERIDIAN', artist:'Jame', release:'MERIDIAN EP',
-    type:'EP', bpm:174, key:'F# min', date:'2025-03-01',
-    url:'', art:'🌊', spotify:'', beatport:'',
-    desc:'Deep liquid DnB. Sub-bass gravity and a vocal hook that haunts.',
-  },
-  {
-    id:2, title:'CARBON', artist:'Jame', release:'MERIDIAN EP',
-    type:'EP', bpm:174, key:'D min', date:'2025-03-01',
-    url:'', art:'🖤', spotify:'', beatport:'',
-    desc:'Dark, textured rollers.',
-  },
-  {
-    id:3, title:'GHOST SIGNAL', artist:'Echo Ray', release:'Ghost Signal',
-    type:'Single', bpm:130, key:'A min', date:'2025-01-15',
-    url:'', art:'👻', spotify:'', beatport:'',
-    desc:'UK Garage meets Burial.',
-  },
-  {
-    id:4, title:'VOLTAGE', artist:'Zephyr Noir', release:'VOLTAGE',
-    type:'Single', bpm:140, key:'E min', date:'2025-02-10',
-    url:'', art:'⚡', spotify:'', beatport:'',
-    desc:'High-energy UKG.',
-  },
-  {
-    id:5, title:'LUCID', artist:'Sage Velvet', release:'Lucid',
-    type:'Single', bpm:88, key:'G maj', date:'2025-04-10',
-    url:'', art:'🌿', spotify:'', beatport:'',
-    desc:'Lush R&B soul.',
-  },
-];
+    // Initialize
+    function init() {
+      renderTracks();
+      renderBlogPosts();
+      initParticles();
+      
+      // Audio event listeners
+      audio.addEventListener('timeupdate', updateProgress);
+      audio.addEventListener('ended', nextTrack);
+      audio.addEventListener('loadedmetadata', () => {
+        updateTimeDisplay();
+      });
+    }
 
-const ARTISTS = [
-  {
-    name:'Jame', emoji:'🎛️', role:'Artist · Producer',
-    genres:['DnB','Liquid','R&B'],
-    bio:'Independent artist. Building music at the intersection of feeling and frequency.',
-    accent:'#B026FF',
-  },
-  {
-    name:'Echo Ray', emoji:'👁️', role:'Artist',
-    genres:['UK Garage','Atmospheric'],
-    bio:'Burial-influenced UK sounds.',
-    accent:'#B026FF',
-  },
-  {
-    name:'Zephyr Noir', emoji:'🌪️', role:'Artist',
-    genres:['UKG','House'],
-    bio:'High-energy UKG alias.',
-    accent:'#B026FF',
-  },
-  {
-    name:'Sage Velvet', emoji:'🌿', role:'Artist',
-    genres:['R&B','Soul'],
-    bio:'Deep, lush R&B.',
-    accent:'#B026FF',
-  },
-];
+    // Navigation
+    window.navigateTo = function(state) {
+      // Update nav buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.state === state) {
+          btn.classList.add('active');
+        }
+      });
 
-// Re-using same script logic, updated colors
-const EMAIL_ENDPOINT = ''; 
-async function submitEmail(e) { e.preventDefault(); /* ... same as before ... */ }
-function renderReleases() { /* ... same as before ... */ }
-function renderArtists() { /* ... same as before ... */ }
-function playTrack(idx) { /* ... same as before ... */ }
-function togglePlay() { /* ... same as before ... */ }
-function prevTrack() { /* ... same as before ... */ }
-function nextTrack() { /* ... same as before ... */ }
-function closePlayer() { /* ... same as before ... */ }
-function seekTo(e) { /* ... same as before ... */ }
-function updatePlayBtns() { /* ... same as before ... */ }
-audio.addEventListener('timeupdate', () => { /* ... same as before ... */ });
-audio.addEventListener('ended', nextTrack);
-audio.addEventListener('play', () => { isPlaying = true; updatePlayBtns(); document.getElementById('p-play-btn').textContent = '⏸'; });
-audio.addEventListener('pause', () => { isPlaying = false; updatePlayBtns(); document.getElementById('p-play-btn').textContent = '▶'; });
+      // Update state overlays
+      document.querySelectorAll('.state-overlay').forEach(overlay => {
+        overlay.classList.remove('active');
+      });
 
-function generateWaveform() { waveData = Array.from({length: 80}, () => 0.15 + Math.random() * 0.85); }
-function generateWaveformAnim() {
-    const svg = document.getElementById('waveform-svg');
-    // Updated wave color
-    svg.innerHTML = waveData.map((h, i) => {
-        const bh = h * (40 * 0.8);
-        return `<rect x="${i * (300/waveData.length)}" y="${(40 - bh) / 2}" width="${(300/waveData.length)-1}" height="${bh}" fill="${h > 0.6 ? 'var(--accent)' : 'rgba(176,38,255,0.3)'}" rx="1"></rect>`;
-    }).join('');
-}
-function animateWaveform(progress) {
-  const svg = document.getElementById('waveform-svg');
-  const rects = svg.querySelectorAll('rect');
-  const playheadIdx = Math.floor(progress * rects.length);
-  rects.forEach((r, i) => {
-    r.setAttribute('fill', i <= playheadIdx ? 'var(--accent)' : 'rgba(176,38,255,0.2)');
-  });
-}
-function resizeHero() { /* ... same as before ... */ }
-function initParticles() { /* ... same as before ... */ }
-function heroRender(ts) { /* ... same as before ... */ }
-const cursor     = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function cursorLoop() { requestAnimationFrame(cursorLoop); rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px'; }
-const revealObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.15 });
-window.addEventListener('scroll', () => { document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
-function fmtDate(d) { /* ... same as before ... */ }
-function fmtTime(s) { /* ... same as before ... */ }
+      const targetOverlay = document.getElementById(`state-${state}`);
+      if (targetOverlay) {
+        targetOverlay.classList.add('active');
+      }
+    };
 
-window.addEventListener('resize', () => { resizeHero(); initParticles(); });
-resizeHero();
-initParticles();
-renderReleases();
-renderArtists();
-generateWaveform();
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-requestAnimationFrame(ts => { hLast = ts; heroRender(ts); });
-cursorLoop();
-</script>
+    // Render tracks
+    function renderTracks() {
+      const trackList = document.getElementById('track-list');
+      trackList.innerHTML = tracks.map((track, index) => `
+        <div class="track-item ${index === 0 ? 'active' : ''}" onclick="loadTrack(${index})">
+          <div class="track-title">${track.title}</div>
+          <div class="track-artist">${track.artist}</div>
+        </div>
+      `).join('');
+    }
+
+    // Render blog posts
+    function renderBlogPosts() {
+      const blogList = document.getElementById('blog-list');
+      blogList.innerHTML = blogPosts.map(post => `
+        <div class="blog-post" onclick="window.open('${post.url}', '_blank')">
+          <h3>${post.title}</h3>
+          <p>${post.excerpt}</p>
+          <div class="blog-post-date">${post.date}</div>
+        </div>
+      `).join('');
+    }
+
+    // Load track
+    window.loadTrack = function(index) {
+      currentTrackIndex = index;
+      const track = tracks[index];
+      
+      audio.src = track.url;
+      document.getElementById('audio-title').textContent = track.title;
+      document.getElementById('audio-artist').textContent = track.artist;
+      
+      // Update active state
+      document.querySelectorAll('.track-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+      });
+      
+      // Auto-play if already playing
+      if (isPlaying) {
+        audio.play();
+      }
+    };
+
+    // Toggle play/pause
+    window.togglePlay = function() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        document.getElementById('play-btn').textContent = 'Play';
+      } else {
+        // Load first track if nothing loaded
+        if (!audio.src || audio.src === '') {
+          loadTrack(0);
+        }
+        audio.play();
+        isPlaying = true;
+        document.getElementById('play-btn').textContent = 'Pause';
+      }
+    };
+
+    // Previous track
+    window.prevTrack = function() {
+      currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrackIndex);
+      if (isPlaying) audio.play();
+    };
+
+    // Next track
+    window.nextTrack = function() {
+      currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(currentTrackIndex);
+      if (isPlaying) audio.play();
+    };
+
+    // Seek audio
+    window.seekAudio = function(event) {
+      const progressContainer = document.getElementById('progress-container');
+      const clickX = event.offsetX;
+      const width = progressContainer.offsetWidth;
+      const percentage = clickX / width;
+      audio.currentTime = audio.duration * percentage;
+    };
+
+    // Update progress bar
+    function updateProgress() {
+      if (audio.duration) {
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progress-bar').style.width = percentage + '%';
+        updateTimeDisplay();
+      }
+    }
+
+    // Update time display
+    function updateTimeDisplay() {
+      const current = audio.currentTime || 0;
+      const minutes = Math.floor(current / 60);
+      const seconds = Math.floor(current % 60);
+      document.getElementById('audio-time').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Particle background
+    function initParticles() {
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const particles = [];
+      const particleCount = 50;
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.radius = Math.random() * 2 + 0.5;
+          this.opacity = Math.random() * 0.3 + 0.1;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200, 255, 0, ${this.opacity})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+          particle.update();
+          particle.draw();
+        });
+
+        // Draw connections
+        particles.forEach((p1, i) => {
+          particles.slice(i + 1).forEach(p2 => {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(200, 255, 0, ${0.1 * (1 - distance / 150)})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          });
+        });
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // Initialize on load
+    init();
+  </script>
 </body>
+
 </html>
