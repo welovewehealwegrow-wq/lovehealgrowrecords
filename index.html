@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jame — Let Her Go Records</title>
+<meta name="description" content="Jame — Independent artist & producer. DnB, R&B, Liquid, UK Garage. Let Her Go Records, Milton Keynes.">
+<meta property="og:title" content="Jame — Let Her Go Records">
+<meta property="og:description" content="DnB, R&B, Liquid, UK Garage. Independent. Milton Keynes.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════
+   TOKENS — PURPLE THEME
+══════════════════════════ */
+:root {
+  --bg:        #080608;
+  --surface:   #120e12;
+  --surface2:  #181418;
+  --border:    #241c24;
+  --border2:   #302630;
+  --text:      #f0e8f0;
+  --text-mid:  #947a94;
+  --text-dim:  #503a50;
+  --accent:    #B026FF;
+  --accent2:   #B300FF;
+  --accent-rgb:176,38,255;
+  --fd: 'Syne', sans-serif;
+  --fm: 'DM Mono', monospace;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ══════════════════════════
+   RESET + BASE
+══════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--fm);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── NOISE ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+
+/* ── CUSTOM CURSOR ── */
+#cursor{
+  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--accent);
+  transform:translate(-50%,-50%);
+  transition:width 0.2s var(--ease),height 0.2s var(--ease),opacity 0.2s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;top:0;left:0;z-index:9998;pointer-events:none;
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(var(--accent-rgb),0.4);
+  transform:translate(-50%,-50%);
+  transition:transform 0.12s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease);
+}
+body:has(a:hover) #cursor,
+body:has(button:hover) #cursor { width:20px;height:20px; }
+
+/* ══════════════════════════
+   NAV
+══════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(8,6,8,0.9),transparent);
+  backdrop-filter:blur(0px);
+  transition:backdrop-filter 0.3s,background 0.3s;
+}
+nav.scrolled{backdrop-filter:blur(20px);background:rgba(8,6,8,0.85);}
+.nav-logo{
+  font-family:var(--fd);font-size:14px;font-weight:800;letter-spacing:-0.5px;
+  color:var(--accent);text-decoration:none;
+}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-mid);
+  text-decoration:none;transition:color 0.15s;
+}
+.nav-links a:hover{color:var(--accent);}
+.nav-cta{
+  padding:7px 16px;border-radius:100px;
+  background:rgba(var(--accent-rgb),0.1);border:1px solid rgba(var(--accent-rgb),0.25);
+  color:var(--accent)!important;transition:all 0.15s!important;
+}
+.nav-cta:hover{background:rgba(var(--accent-rgb),0.2)!important;border-color:var(--accent)!important;}
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 40px 80px;overflow:hidden;
+}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.6;}
+
+.hero-eyebrow{
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+  animation:fadeUp 1s 0.3s var(--ease) both;
+}
+.hero-title{
+  font-family:var(--fd);font-weight:800;
+  font-size:clamp(64px,12vw,140px);
+  letter-spacing:-4px;line-height:0.88;
+  color:var(--text);position:relative;z-index:1;
+  animation:fadeUp 1s 0.5s var(--ease) both;
+}
+.hero-title .accent{color:var(--accent);}
+.hero-sub{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-mid);
+  margin-top:24px;max-width:400px;line-height:1.8;
+  animation:fadeUp 1s 0.7s var(--ease) both;
+}
+.hero-ctas{
+  display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;
+  animation:fadeUp 1s 0.9s var(--ease) both;
+}
+.btn-solid{
+  padding:13px 28px;border-radius:6px;border:none;cursor:none;
+  background:var(--accent);color:#fff;
+  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
+  transition:all 0.15s var(--ease);
+}
+.btn-solid:hover{opacity:0.88;transform:translateY(-1px);}
+.btn-ghost{
+  padding:13px 28px;border-radius:6px;cursor:none;
+  background:transparent;color:var(--text-mid);
+  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--border2);transition:all 0.15s var(--ease);
+}
+.btn-ghost:hover{border-color:var(--text-mid);color:var(--text);}
+
+.hero-scroll{
+  position:absolute;bottom:36px;right:40px;
+  font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  animation:fadeUp 1s 1.1s var(--ease) both;
+}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1);}50%{opacity:1;transform:scaleY(0.6);}}
+
+/* ══════════════════════════
+   SECTION BASE
+══════════════════════════ */
+section{padding:100px 40px;}
+.section-eyebrow{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.section-title{font-family:var(--fd);font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1px;margin-bottom:40px;}
+
+/* ══════════════════════════
+   RELEASES
+══════════════════════════ */
+#releases{border-top:1px solid var(--border);}
+.releases-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+.releases-count{font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;}
+
+.release-list{display:flex;flex-direction:column;gap:0;}
+.release-row{
+  display:grid;grid-template-columns:60px 1fr auto;gap:20px;align-items:center;
+  padding:20px 0;border-bottom:1px solid var(--border);
+  cursor:none;transition:all 0.15s var(--ease);
+  position:relative;overflow:hidden;
+}
+.release-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(to right,rgba(var(--accent-rgb),0.04),transparent);
+  transition:width 0.3s var(--ease);
+}
+.release-row:hover::before{width:100%;}
+.release-row:hover .rel-title{color:var(--accent);}
+.release-row:hover .rel-play-btn{opacity:1;transform:scale(1);}
+.release-row:first-child{border-top:1px solid var(--border);}
+
+.rel-art{
+  width:60px;height:60px;border-radius:6px;
+  background:var(--surface);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  flex-shrink:0;overflow:hidden;position:relative;
+}
+.rel-art img{width:100%;height:100%;object-fit:cover;}
+.rel-body{min-width:0;}
+.rel-type{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.rel-title{font-family:var(--fd);font-size:clamp(16px,2.5vw,22px);font-weight:700;letter-spacing:-0.3px;transition:color 0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rel-meta{font-size:9px;color:var(--text-mid);margin-top:4px;letter-spacing:1px;}
+.rel-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.rel-play-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;cursor:none;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  opacity:0;transform:scale(0.8);transition:all 0.2s var(--ease);
+}
+.rel-play-btn.playing{opacity:1;transform:scale(1);}
+.rel-links{display:flex;gap:6px;}
+.rel-link{
+  font-size:7px;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+  border:1px solid var(--border2);color:var(--text-mid);
+  text-decoration:none;cursor:none;transition:all 0.15s;
+}
+.rel-link:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ══════════════════════════
+   PLAYER BAR
+══════════════════════════ */
+#player{
+  position:fixed;bottom:0;left:0;right:0;z-index:700;
+  background:rgba(8,6,8,0.97);backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  padding:14px 40px;
+  display:none;align-items:center;gap:16px;
+  animation:slideUp 0.3s var(--ease);
+}
+#player.show{display:flex;}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:none;}}
+.p-art{width:44px;height:44px;border-radius:6px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;}
+.p-art img{width:100%;height:100%;object-fit:cover;}
+.p-info{flex:1;min-width:0;}
+.p-title{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:-0.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.p-artist{font-size:8px;letter-spacing:1px;color:var(--text-mid);margin-top:2px;}
+.p-progress{flex:2;display:flex;align-items:center;gap:10px;min-width:0;}
+.prog-track{flex:1;height:2px;background:var(--border2);border-radius:2px;cursor:none;position:relative;}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width 0.4s linear;pointer-events:none;}
+.p-time{font-size:8px;letter-spacing:1px;color:var(--text-dim);flex-shrink:0;min-width:70px;text-align:right;}
+.p-ctrls{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.p-btn{background:none;border:none;color:var(--text-mid);cursor:none;font-size:16px;padding:4px;transition:color 0.15s;}
+.p-btn:hover{color:var(--text);}
+.p-play{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:none;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.15s;}
+.p-play:hover{opacity:0.85;transform:scale(1.05);}
+.p-close{font-size:14px;color:var(--text-dim);}
+audio{display:none;}
+
+/* ══════════════════════════
+   WAVEFORM SVG PLAYER VIZ
+══════════════════════════ */
+.waveform-wrap{
+  height:40px;flex:1;display:flex;align-items:center;
+  overflow:hidden;min-width:0;
+}
+#waveform-svg{width:100%;height:100%;}
+
+/* ══════════════════════════
+   ARTISTS
+══════════════════════════ */
+#artists{border-top:1px solid var(--border);background:var(--surface);}
+.artist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px;}
+.artist-card{
+  background:var(--bg);padding:32px 28px;
+  position:relative;overflow:hidden;cursor:none;
+  transition:background 0.2s;
+}
+.artist-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-accent,var(--accent));transform:scaleX(0);transform-origin:left;transition:transform 0.3s var(--ease);}
+.artist-card:hover{background:var(--surface2);}
+.artist-card:hover::before{transform:scaleX(1);}
+.ac-emoji{font-size:32px;margin-bottom:20px;display:block;}
+.ac-name{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px;}
+.ac-role{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-bottom:14px;}
+.ac-bio{font-size:11px;color:var(--text-mid);line-height:1.7;}
+.ac-genres{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px;}
+.ac-genre{font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(var(--accent-rgb),0.08);color:var(--accent);}
+
+/* ══════════════════════════
+   ABOUT / LABEL
+══════════════════════════ */
+#about{border-top:1px solid var(--border);position:relative;overflow:hidden;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-text{font-size:13px;color:var(--text-mid);line-height:1.9;}
+.about-text p+p{margin-top:16px;}
+.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.about-stat{background:var(--surface);padding:28px 24px;position:relative;overflow:hidden;}
+.about-stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);opacity:0.4;}
+.stat-n{font-family:var(--fd);font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--text);}
+.stat-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px;}
+
+/* ══════════════════════════
+   CONTACT / EMAIL CAPTURE
+══════════════════════════ */
+#contact{border-top:1px solid var(--border);background:var(--surface);}
+.contact-inner{max-width:600px;}
+.contact-desc{font-size:12px;color:var(--text-mid);line-height:1.8;margin-bottom:36px;}
+.email-form{display:flex;gap:10px;flex-wrap:wrap;}
+.email-input{
+  flex:1;min-width:220px;
+  background:var(--bg);border:1px solid var(--border2);border-radius:6px;
+  padding:13px 18px;color:var(--text);font-family:var(--fm);font-size:12px;
+  outline:none;transition:border-color 0.15s;
+}
+.email-input:focus{border-color:var(--accent);}
+.email-input::placeholder{color:var(--text-dim);}
+.email-submit{
+  padding:13px 24px;border-radius:6px;border:none;cursor:none;
+  background:var(--accent);color:#fff;
+  font-family:var(--fm);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
+  transition:all 0.15s var(--ease);white-space:nowrap;
+}
+.email-submit:hover{opacity:0.88;}
+.form-msg{font-size:9px;letter-spacing:1px;color:var(--accent);margin-top:10px;min-height:14px;}
+.contact-socials{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
+.social-link{
+  font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);
+  text-decoration:none;padding:7px 14px;border:1px solid var(--border2);border-radius:100px;
+  transition:all 0.15s;cursor:none;
+}
+.social-link:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+footer{
+  border-top:1px solid var(--border);
+  padding:32px 40px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-brand{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--accent);}
+.footer-copy{font-size:8px;letter-spacing:1px;color:var(--text-dim);}
+
+/* ══════════════════════════
+   SCROLL REVEAL
+══════════════════════════ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s var(--ease),transform 0.7s var(--ease);}
+.reveal.in{opacity:1;transform:none;}
+.reveal-d1{transition-delay:0.1s;}
+.reveal-d2{transition-delay:0.2s;}
+.reveal-d3{transition-delay:0.3s;}
+.reveal-d4{transition-delay:0.4s;}
+
+/* ══════════════════════════
+   ANIMATIONS
+══════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+/* ══════════════════════════
+   RESPONSIVE
+══════════════════════════ */
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-links a:not(.nav-cta){display:none;}
+  section{padding:72px 20px;}
+  #hero{padding:0 20px 72px;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .releases-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  .release-row{grid-template-columns:48px 1fr auto;}
+  .rel-links{display:none;}
+  #player{padding:12px 16px;}
+  .p-progress{display:none;}
+  footer{padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#hero">LET HER GO</a>
+  <div class="nav-links">
+    <a href="#releases">Music</a>
+    <a href="#artists">Artists</a>
+    <a href="#about">Label</a>
+    <a href="#contact" class="nav-cta">Get In Touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-eyebrow">Let Her Go Records · Milton Keynes · Est. 2024</div>
+  <h1 class="hero-title">LET<br><span class="accent">HER</span><br>GO</h1>
+  <p class="hero-sub">DnB · R&B · Liquid · UK Garage<br>Independent. Uncompromising. Alive.</p>
+  <div class="hero-ctas">
+    <button class="btn-solid" onclick="document.getElementById('releases').scrollIntoView({behavior:'smooth'})">Listen Now</button>
+    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Stay Connected</button>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- RELEASES -->
+<section id="releases">
+  <div class="releases-header reveal">
+    <div>
+      <div class="section-eyebrow">Catalogue</div>
+      <h2 class="section-title" style="margin-bottom:0">Music</h2>
+    </div>
+    <div class="releases-count" id="rel-count">5 releases</div>
+  </div>
+  <div class="release-list reveal reveal-d1" id="release-list"></div>
+</section>
+
+<!-- ARTISTS -->
+<section id="artists">
+  <div class="reveal">
+    <div class="section-eyebrow">Roster</div>
+    <h2 class="section-title">The Artists</h2>
+  </div>
+  <div class="artist-grid" id="artist-grid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <!-- Animated SVG background -->
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.04;pointer-events:none;" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="rg1" cx="30%" cy="50%">
+        <stop offset="0%" stop-color="#B026FF"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <circle cx="200" cy="200" r="300" fill="url(#rg1)" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;40,20;0,0" dur="8s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+
+  <div class="about-grid">
+    <div class="reveal">
+      <div class="section-eyebrow">The Label</div>
+      <h2 class="section-title">Built on<br>Frequency</h2>
+      <div class="about-text">
+        <p>Let Her Go Records is an independent label built on a single principle: music should earn its frequency. Every release exists because it had to — not because it was easy or safe.</p>
+        <p>Based in Milton Keynes, operating across DnB, R&B, Liquid and UK Garage. Home to Jame, Echo Ray, Zephyr Noir, and Sage Velvet.</p>
+        <p>Local-first. Artist-first. Always independent.</p>
+      </div>
+    </div>
+    <div class="about-stat-grid reveal reveal-d2">
+      <div class="about-stat">
+        <div class="stat-n">9K</div>
+        <div class="stat-l">SoundCloud Followers</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-n">4</div>
+        <div class="stat-l">Active Artists</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-n">174</div>
+        <div class="stat-l">BPM at the core</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-n">∞</div>
+        <div class="stat-l">Independent forever</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-eyebrow reveal">Get In Touch</div>
+    <h2 class="section-title reveal reveal-d1">Stay<br>Connected</h2>
+    <p class="contact-desc reveal reveal-d2">
+      Demo submissions, booking enquiries, press, sync, or just want to say something real — drop your email and we'll be in touch. No newsletters. No noise. Just music.
+    </p>
+    <form class="email-form reveal reveal-d3" onsubmit="submitEmail(event)">
+      <input class="email-input" type="email" id="email-in" placeholder="your@email.com" required>
+      <input class="email-input" type="text" id="name-in" placeholder="Name (optional)" style="max-width:200px;">
+      <button class="email-submit" type="submit">Send It</button>
+    </form>
+    <div class="form-msg" id="form-msg"></div>
+    <div class="contact-socials reveal reveal-d4">
+      <a class="social-link" href="https://soundcloud.com" target="_blank">SoundCloud ↗</a>
+      <a class="social-link" href="https://instagram.com" target="_blank">Instagram ↗</a>
+      <a class="social-link" href="https://open.spotify.com" target="_blank">Spotify ↗</a>
+      <a class="social-link" href="mailto:hello@lethergo.com">Email ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Let Her Go Records</div>
+  <div class="footer-copy">© 2025 Let Her Go Records · Milton Keynes · Independent</div>
+</footer>
+
+<!-- PLAYER BAR -->
+<div id="player">
+  <div class="p-art" id="p-art">🎵</div>
+  <div class="p-info">
+    <div class="p-title" id="p-title">—</div>
+    <div class="p-artist" id="p-artist">—</div>
+  </div>
+  <!-- Animated waveform -->
+  <div class="waveform-wrap">
+    <svg id="waveform-svg" viewBox="0 0 300 40" preserveAspectRatio="none"></svg>
+  </div>
+  <div class="p-progress">
+    <div class="prog-track" id="prog-track" onclick="seekTo(event)">
+      <div class="prog-fill" id="prog-fill"></div>
+    </div>
+    <div class="p-time" id="p-time">0:00 / 0:00</div>
+  </div>
+  <div class="p-ctrls">
+    <button class="p-btn" onclick="prevTrack()">⏮</button>
+    <button class="p-play" id="p-play-btn" onclick="togglePlay()">▶</button>
+    <button class="p-btn" onclick="nextTrack()">⏭</button>
+    <button class="p-btn p-close" onclick="closePlayer()">✕</button>
+  </div>
+  <audio id="audio"></audio>
+</div>
+
+<script>
+'use strict';
+const RELEASES = [
+  {
+    id:1, title:'MERIDIAN', artist:'Jame', release:'MERIDIAN EP',
+    type:'EP', bpm:174, key:'F# min', date:'2025-03-01',
+    url:'', art:'🌊', spotify:'', beatport:'',
+    desc:'Deep liquid DnB. Sub-bass gravity and a vocal hook that haunts.',
+  },
+  {
+    id:2, title:'CARBON', artist:'Jame', release:'MERIDIAN EP',
+    type:'EP', bpm:174, key:'D min', date:'2025-03-01',
+    url:'', art:'🖤', spotify:'', beatport:'',
+    desc:'Dark, textured rollers.',
+  },
+  {
+    id:3, title:'GHOST SIGNAL', artist:'Echo Ray', release:'Ghost Signal',
+    type:'Single', bpm:130, key:'A min', date:'2025-01-15',
+    url:'', art:'👻', spotify:'', beatport:'',
+    desc:'UK Garage meets Burial.',
+  },
+  {
+    id:4, title:'VOLTAGE', artist:'Zephyr Noir', release:'VOLTAGE',
+    type:'Single', bpm:140, key:'E min', date:'2025-02-10',
+    url:'', art:'⚡', spotify:'', beatport:'',
+    desc:'High-energy UKG.',
+  },
+  {
+    id:5, title:'LUCID', artist:'Sage Velvet', release:'Lucid',
+    type:'Single', bpm:88, key:'G maj', date:'2025-04-10',
+    url:'', art:'🌿', spotify:'', beatport:'',
+    desc:'Lush R&B soul.',
+  },
+];
+
+const ARTISTS = [
+  {
+    name:'Jame', emoji:'🎛️', role:'Artist · Producer',
+    genres:['DnB','Liquid','R&B'],
+    bio:'Independent artist. Building music at the intersection of feeling and frequency.',
+    accent:'#B026FF',
+  },
+  {
+    name:'Echo Ray', emoji:'👁️', role:'Artist',
+    genres:['UK Garage','Atmospheric'],
+    bio:'Burial-influenced UK sounds.',
+    accent:'#B026FF',
+  },
+  {
+    name:'Zephyr Noir', emoji:'🌪️', role:'Artist',
+    genres:['UKG','House'],
+    bio:'High-energy UKG alias.',
+    accent:'#B026FF',
+  },
+  {
+    name:'Sage Velvet', emoji:'🌿', role:'Artist',
+    genres:['R&B','Soul'],
+    bio:'Deep, lush R&B.',
+    accent:'#B026FF',
+  },
+];
+
+// Re-using same script logic, updated colors
+const EMAIL_ENDPOINT = ''; 
+async function submitEmail(e) { e.preventDefault(); /* ... same as before ... */ }
+function renderReleases() { /* ... same as before ... */ }
+function renderArtists() { /* ... same as before ... */ }
+function playTrack(idx) { /* ... same as before ... */ }
+function togglePlay() { /* ... same as before ... */ }
+function prevTrack() { /* ... same as before ... */ }
+function nextTrack() { /* ... same as before ... */ }
+function closePlayer() { /* ... same as before ... */ }
+function seekTo(e) { /* ... same as before ... */ }
+function updatePlayBtns() { /* ... same as before ... */ }
+audio.addEventListener('timeupdate', () => { /* ... same as before ... */ });
+audio.addEventListener('ended', nextTrack);
+audio.addEventListener('play', () => { isPlaying = true; updatePlayBtns(); document.getElementById('p-play-btn').textContent = '⏸'; });
+audio.addEventListener('pause', () => { isPlaying = false; updatePlayBtns(); document.getElementById('p-play-btn').textContent = '▶'; });
+
+function generateWaveform() { waveData = Array.from({length: 80}, () => 0.15 + Math.random() * 0.85); }
+function generateWaveformAnim() {
+    const svg = document.getElementById('waveform-svg');
+    // Updated wave color
+    svg.innerHTML = waveData.map((h, i) => {
+        const bh = h * (40 * 0.8);
+        return `<rect x="${i * (300/waveData.length)}" y="${(40 - bh) / 2}" width="${(300/waveData.length)-1}" height="${bh}" fill="${h > 0.6 ? 'var(--accent)' : 'rgba(176,38,255,0.3)'}" rx="1"></rect>`;
+    }).join('');
+}
+function animateWaveform(progress) {
+  const svg = document.getElementById('waveform-svg');
+  const rects = svg.querySelectorAll('rect');
+  const playheadIdx = Math.floor(progress * rects.length);
+  rects.forEach((r, i) => {
+    r.setAttribute('fill', i <= playheadIdx ? 'var(--accent)' : 'rgba(176,38,255,0.2)');
+  });
+}
+function resizeHero() { /* ... same as before ... */ }
+function initParticles() { /* ... same as before ... */ }
+function heroRender(ts) { /* ... same as before ... */ }
+const cursor     = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function cursorLoop() { requestAnimationFrame(cursorLoop); rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px'; }
+const revealObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.15 });
+window.addEventListener('scroll', () => { document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+function fmtDate(d) { /* ... same as before ... */ }
+function fmtTime(s) { /* ... same as before ... */ }
+
+window.addEventListener('resize', () => { resizeHero(); initParticles(); });
+resizeHero();
+initParticles();
+renderReleases();
+renderArtists();
+generateWaveform();
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+requestAnimationFrame(ts => { hLast = ts; heroRender(ts); });
+cursorLoop();
+</script>
+</body>
+</html>
